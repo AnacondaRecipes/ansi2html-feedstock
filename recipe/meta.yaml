@@ -57,7 +57,7 @@ about:
   description: |
     ansi2html allows users to convert text with ANSI color codes
     to HTML or to Latex.
-  doc_source_url: https://github.com/pycontribs/ansi2html/blob/develop/README.rst
+  doc_url: https://ansi2html.readthedocs.io/
   dev_url: https://github.com/pycontribs/ansi2html
 
 extra:
