@@ -9,9 +9,10 @@ package:
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.{{ file_ext }}
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
   {{ hash_type }}: {{ hash_value }}
+  patches:  # [win]
+    001-No-python3.exe-on-Windows.patch  # [win]
 
 build:
   number: 0
@@ -27,6 +28,7 @@ requirements:
     - setuptools_scm 6.0.1
     - setuptools_scm_git_archive 1.1
     - wheel
+    - m2-patch  # [win]
   run:
     - python
 
