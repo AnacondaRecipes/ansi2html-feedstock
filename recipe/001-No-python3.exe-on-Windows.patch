@@ -1,7 +1,7 @@
-diff --git a/test_ansi2html.py b/test_ansi2html.py
+diff --git a/tests/test_ansi2html.py b/tests/test_ansi2html.py
 index 04b5d22..67086f9 100644
---- a/test_ansi2html.py
-+++ b/test_ansi2html.py
+--- a/tests/test_ansi2html.py
++++ b/tests/test_ansi2html.py
 @@ -499,5 +499,5 @@ class TestAnsi2HTML:
          assert process.returncode == 0
 
