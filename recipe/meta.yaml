@@ -1,32 +1,37 @@
 {% set name = "ansi2html" %}
-{% set version = "1.5.2" %}
+{% set version = "1.8.0" %}
 {% set file_ext = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "96ae85ae7b26b7da674d87de2870ba4d1964bca733ae4614587080b6358c3ba9" %}
+{% set hash_value = "38b82a298482a1fa2613f0f9c9beb3db72a8f832eeac58eb2e47bf32cd37f6d5" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.{{ file_ext }}
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
   {{ hash_type }}: {{ hash_value }}
+  patches:  # [win]
+    - 001-No-python3.exe-on-Windows.patch  # [win]
 
 build:
   number: 0
   entry_points:
     - ansi2html=ansi2html.converter:main
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv
 
 requirements:
+  build:
+     - m2-patch  # [win]   
   host:
     - python
-    - setuptools
+    - pip
+    - setuptools 
+    - setuptools_scm 6.0.1
+    - setuptools_scm_git_archive 1.1
+    - wheel
   run:
     - python
-    - setuptools
-    - six
 
 test:
   source_files:
@@ -34,24 +39,26 @@ test:
   imports:
     - ansi2html
   commands:
+    - pip check
     - nosetests tests/test_ansi2html.py
     - ansi2html --help
+    - ansi2html --version | grep -q {{ version }}
   requires:
     - mock >=0.8
     - nose
+    - pip
 
 about:
-  home: https://pypi.python.org/pypi/ansi2html
-  license: LGPLv3+
+  home: https://pypi.org/project/ansi2html/
+  license: LGPL-3.0-or-later
   license_family: LGPL
   license_file: LICENSE
   summary: Convert text with ANSI color codes to HTML or to LaTeX.
   description: |
     ansi2html allows users to convert text with ANSI color codes
     to HTML or to Latex.
-  doc_url: https://pypi.python.org/pypi/ansi2html/
-  doc_source_url: https://github.com/ralphbean/ansi2html/blob/develop/README.rst
-  dev_url: https://github.com/ralphbean/ansi2html/
+  doc_url: https://ansi2html.readthedocs.io/
+  dev_url: https://github.com/pycontribs/ansi2html
 
 extra:
   recipe-maintainers:
