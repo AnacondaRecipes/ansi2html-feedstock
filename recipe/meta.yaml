@@ -15,7 +15,7 @@ source:
     - 001-No-python3.exe-on-Windows.patch  # [win]
 
 build:
-  number: 0
+  number: 1
   entry_points:
     - ansi2html=ansi2html.converter:main
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv
@@ -27,7 +27,7 @@ requirements:
     - python
     - pip
     - setuptools 
-    - setuptools_scm 6.0.1
+    - setuptools_scm
     - setuptools_scm_git_archive 1.1
     - wheel
   run:
