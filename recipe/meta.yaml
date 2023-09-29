@@ -28,7 +28,7 @@ requirements:
     - pip
     - setuptools 
     - setuptools_scm
-    - setuptools_scm_git_archive 1.1
+    - setuptools_scm_git_archive
     - wheel
   run:
     - python
@@ -40,12 +40,12 @@ test:
     - ansi2html
   commands:
     - pip check
-    - nosetests tests/test_ansi2html.py
+    - nosetests tests/test_ansi2html.py  # [py<312]
     - ansi2html --help
     - ansi2html --version | grep -q {{ version }}
   requires:
     - mock >=0.8
-    - nose
+    - nose  # [py<312]
     - pip
 
 about:
