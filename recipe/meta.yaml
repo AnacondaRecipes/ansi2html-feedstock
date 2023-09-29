@@ -40,12 +40,11 @@ test:
     - ansi2html
   commands:
     - pip check
-    - nosetests tests/test_ansi2html.py  # [py<312]
+    - python -m pytest -ra tests
     - ansi2html --help
     - ansi2html --version | grep -q {{ version }}
   requires:
-    - mock >=0.8
-    - nose  # [py<312]
+    - pytest
     - pip
 
 about:
