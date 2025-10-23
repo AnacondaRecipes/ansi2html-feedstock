@@ -33,14 +33,15 @@ test:
     - tests
   imports:
     - ansi2html
-  requires:
-    - pip
-    - pytest
   commands:
     - pip check
     - ansi2html --help
     - ansi2html --version | grep -q {{ version }}
     - python -m pytest -ra tests
+  requires:
+    - pip
+    - pytest
+    - msys2-grep  # [win]
 
 about:
   home: https://pypi.org/project/ansi2html
