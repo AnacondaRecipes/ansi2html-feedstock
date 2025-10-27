@@ -1,33 +1,28 @@
 {% set name = "ansi2html" %}
-{% set version = "1.9.1" %}
+{% set version = "1.9.2" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 5c6837a13ecc1903aab7a545353312049dfedfe5105362ad3a8d9d207871ec71
-  patches:
-    - 0001-Fix-output-for-help.patch
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 3453bf87535d37b827b05245faaa756dbab4ec3d69925e352b6319c3c955c0a5
 
 build:
   number: 0
-  skip: true  # [py<37]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed -vv
   entry_points:
     - ansi2html=ansi2html.converter:main
+  skip: true  # [py<37]
 
 requirements:
-  build:
-    - m2-patch  # [win]
-    - patch     # [unix]
   host:
-    - python
     - pip
-    - setuptools
-    - setuptools_scm
+    - python
     - wheel
+    - setuptools >=45.0.0
+    - setuptools_scm >=7.0.0
   run:
     - python
     - importlib-metadata  # [py<38]
@@ -38,17 +33,18 @@ test:
     - tests
   imports:
     - ansi2html
+  commands:
+    - pip check
+    - ansi2html --help
+    - ansi2html --version | grep -q {{ version }}
+    - python -m pytest -ra tests
   requires:
     - pip
     - pytest
-  commands:
-    - pip check
-    - python -m pytest -ra tests
-    - ansi2html --help
-    - ansi2html --version | grep -q {{ version }}
+    - msys2-grep  # [win]
 
 about:
-  home: https://pypi.org/project/ansi2html/
+  home: https://pypi.org/project/ansi2html
   license: LGPL-3.0-or-later
   license_family: LGPL
   license_file: LICENSE
@@ -56,7 +52,7 @@ about:
   description: |
     ansi2html allows users to convert text with ANSI color codes
     to HTML or to Latex.
-  doc_url: https://ansi2html.readthedocs.io/
+  doc_url: https://ansi2html.readthedocs.io
   dev_url: https://github.com/pycontribs/ansi2html
 
 extra:
