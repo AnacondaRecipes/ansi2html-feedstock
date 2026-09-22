@@ -1,20 +1,22 @@
 {% set name = "ansi2html" %}
-{% set version = "1.9.2" %}
+{% set version = "1.9.5" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 3453bf87535d37b827b05245faaa756dbab4ec3d69925e352b6319c3c955c0a5
+  sha256: ae17e92f1d6cac0e67d367e07fb0ba8a23dac8f193fc5d7a8c8a50fe5ddd95a4
 
+# Upstream source:
+# https://github.com/pycontribs/ansi2html/blob/v1.9.5/pyproject.toml
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed -vv
   entry_points:
-    - ansi2html=ansi2html.converter:main
-  skip: true  # [py<37]
+    - ansi2html=ansi2html.__main__:main
+  skip: true  # [py<310]
 
 requirements:
   host:
@@ -23,10 +25,9 @@ requirements:
     - wheel
     - setuptools >=45.0.0
     - setuptools_scm >=7.0.0
+    - toml
   run:
     - python
-    - importlib-metadata  # [py<38]
-    - typing_extensions   # [py<38]
 
 test:
   source_files:
